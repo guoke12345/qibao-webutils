@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+
+    <context:component-scan base-package="com.qibao"></context:component-scan>
+
+    <!-- 启动AspectJ支持 -->
+    <aop:aspectj-autoproxy/>
+
+    <!--配置试图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/views/"></property>
+        <property name="suffix" value=".html"></property>
+    </bean>
+
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties" />
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${db_driver}" />
+        <property name="url" value="${db_url}" />
+        <property name="username" value="${db_username}" />
+        <property name="password" value="${db_password}" />
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${db_initialSize}"></property>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="${db_maxActive}"></property>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="${db_maxIdle}"></property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="${db_minIdle}"></property>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${db_maxWait}"></property>
+    </bean>
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--<property name="configLocation" value="classpath:mybatis-config.xml" />-->
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描mapper.xml文件 -->
+        <property name="mapperLocations" value="classpath*:com/qibao/model/mapper/*.xml"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+    </bean>
+    <!-- 接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.qibao.model" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:attributes>
+        <!--以下方法，如save，update，insert等对数据库进行写入操作的方法，当产生Exception时进行回滚 -->
+        <!--<tx:method name="*" propagation="REQUIRED" />-->
+        <tx:method name="insert*" propagation="REQUIRED" />
+        <tx:method name="update*" propagation="REQUIRED" />
+        <tx:method name="save*" propagation="REQUIRED" />
+        <tx:method name="add*" propagation="REQUIRED" />
+        <tx:method name="create*" propagation="REQUIRED" />
+        <tx:method name="delete*" propagation="REQUIRED" />
+        <tx:method name="tx*" propagation="REQUIRED" />
+        <!--<tx:method name="verify*" propagation="REQUIRED" />-->
+    </tx:attributes>
+</tx:advice>
+
+    <aop:config expose-proxy="true">
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="txPointcut" expression="execution(public * com.qibao.service.*.*(..))" />
+        <aop:pointcut id="subPointcut" expression="execution(public * com.qibao.service.*.*.*(..))" />
+        <aop:pointcut id="basePointcut" expression="execution(public * com.core.service.*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="subPointcut" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="basePointcut" />
+    </aop:config>
+</beans>
