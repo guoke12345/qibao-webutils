@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by giozola on 2017/6/26.
  */
 @Controller
-@RequestMapping(value = "index")
+@RequestMapping(value = "/")
 public class Index extends BaseController{
 
     @Autowired
     private IStudentService studentService;
 
-    @RequestMapping(value = "hello")
+    @RequestMapping(value = "/")
     public String hello(){
-        System.out.println(studentService.getByName().getClasses());
+        System.out.println("Hello World !");
         return "index";
     }
 }
