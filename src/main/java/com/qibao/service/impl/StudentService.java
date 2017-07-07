@@ -1,5 +1,7 @@
 package com.qibao.service.impl;
 
+import com.core.service.impl.BaseService;
+import com.github.abel533.mapper.Mapper;
 import com.qibao.model.StudentMapper;
 import com.qibao.model.dao.Student;
 import com.qibao.service.IStudentService;
@@ -12,10 +14,15 @@ import java.util.List;
  * Created by giozola on 2017/7/6.
  */
 @Service
-public class StudentService implements IStudentService{
+public class StudentService extends BaseService<Student> implements IStudentService{
 
     @Autowired
     private StudentMapper studentMapper;
+    @Override
+    public Mapper<Student> getBaseMapper() {
+        return studentMapper;
+    }
+
     @Override
     public Student getByName() {
         Student student = new Student();
