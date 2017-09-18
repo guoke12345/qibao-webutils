@@ -1,6 +1,7 @@
 package test;
 
 
+import com.core.util.PostHelper;
 import com.qibao.model.StudentMapper;
 import com.qibao.model.dao.Student;
 import com.sun.tools.internal.xjc.reader.xmlschema.BGMBuilder;
@@ -47,5 +48,13 @@ public class JavaTest
             b = b.multiply(x);
         }
         return b;
+    }
+
+    @Test
+    public void postHelper(){
+        String url = "http://120.27.228.102:8180/tps/admin/order/getICBCOrders";
+        String param = "";
+        String reslult = PostHelper.sendPost(url,param);
+        System.out.println(reslult);
     }
 }
