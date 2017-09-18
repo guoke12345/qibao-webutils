@@ -54,7 +54,7 @@ public class JavaTest
     public void postHelper(){
         String url = "http://120.27.228.102:8180/tps/admin/order/getICBCOrders";
         String param = "";
-        String reslult = PostHelper.sendPost(url,param);
-        System.out.println(reslult);
+        System.out.println("begin post!");
+        PostHelper.httpUrlConnection();
     }
 }

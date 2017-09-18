@@ -1,69 +1,66 @@
 package com.core.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 public class PostHelper{
-    /**
-     * 向指定 URL 发送POST方法的请求
-     *
-     * @param url
-     *            发送请求的 URL
-     * @param param
-     *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
-     * @return 所代表远程资源的响应结果
-     */
-    public static String sendPost(String url, String param) {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        String result = "";
-        try {
-            URL realUrl = new URL(url);
-            // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
-            // 设置通用的请求属性
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
 
-            // 发送POST请求必须设置如下两行
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(conn.getOutputStream());
-            // 发送请求参数
-            out.print(param);
-            // flush输出流的缓冲
-            out.flush();
-            // 定义BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = in.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
-            e.printStackTrace();
-        }
-        //使用finally块来关闭输出流、输入流
-        finally{
-            try{
-                if(out!=null){
-                    out.close();
+
+    private static final String ENCODING_UTF_8 = "UTF-8";
+
+    /**
+     * post
+     */
+    public  static void httpUrlConnection() {
+        try {
+            String pathUrl = "http://120.27.228.102:8180/tps/admin/order/getICBCOrders";
+// 建立连接
+            URL url = new URL(pathUrl);
+            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+// //设置连接属性
+            httpConn.setDoOutput(true);// 使用 URL 连接进行输出
+            httpConn.setDoInput(true);// 使用 URL 连接进行输入
+            httpConn.setUseCaches(false);// 忽略缓存
+            httpConn.setRequestMethod("POST");// 设置URL请求方法
+            String requestString = "客服端要以以流方式发送到服务端的数据...";
+// 设置请求属性
+// 获得数据字节数据，请求数据流的编码，必须和下面服务器端处理请求流的编码一致
+
+            byte[] requestStringBytes = requestString.getBytes(ENCODING_UTF_8);
+            httpConn.setRequestProperty("Content-length", "" + requestStringBytes.length);
+            httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded ");
+            httpConn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
+            httpConn.setRequestProperty("Charset", "UTF-8");
+//
+            String name = URLEncoder.encode("黄武艺", "utf-8");
+            httpConn.setRequestProperty("NAME", name);
+// 建立输出流，并写入数据
+            OutputStream outputStream = httpConn.getOutputStream();
+            outputStream.write(requestStringBytes);
+            outputStream.close();
+// 获得响应状态
+            int responseCode = httpConn.getResponseCode();
+
+            if (HttpURLConnection.HTTP_OK == responseCode) {// 连接成功
+// 当正确响应时处理数据
+                StringBuffer sb = new StringBuffer();
+                String readLine;
+                BufferedReader responseReader;
+// 处理响应流，必须与服务器响应流输出的编码一致
+                responseReader = new BufferedReader(new InputStreamReader(httpConn.getInputStream(), ENCODING_UTF_8));
+                while ((readLine = responseReader.readLine()) != null) {
+                    sb.append(readLine).append("\n");
                 }
-                if(in!=null){
-                    in.close();
-                }
+                responseReader.close();
+//                tv.setText(sb.toString());
+                System.out.println(sb.toString());
             }
-            catch(IOException ex){
-                ex.printStackTrace();
-            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return result;
     }
 
 }
