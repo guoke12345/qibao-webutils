@@ -3,7 +3,7 @@ package com.modul.tps;
 import com.core.common.exception.BusinessException;
 
 public enum ThirdPlatForm {
-    ICBC(3, "ICBC","http://192.168.5.51:8180/tps/admin/order/getICBCOrders"),YHD(5, "YHD","http://192.168.5.51:8180/tps/admin/order/getYHDOrders");
+    ICBC(3, "ICBC","http://120.27.228.102:8180/tps/admin/order/getICBCOrders"),YHD(5, "YHD","http://120.27.228.102:8180/tps/admin/order/getYHDOrders");
 
     private int _id;
 

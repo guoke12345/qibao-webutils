@@ -3,18 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
-    <context:component-scan base-package="com.qibao"></context:component-scan>
+    <context:component-scan base-package="com"></context:component-scan>
 
     <!-- 启动AspectJ支持 -->
     <aop:aspectj-autoproxy/>
+
+    <!--开启这个配置，spring才能识别@Scheduled注解   -->
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+    <task:scheduler id="qbScheduler" pool-size="5"/>
 
     <!--配置试图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -130,4 +134,6 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="subPointcut" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="basePointcut" />
     </aop:config>
+
+
 </beans>

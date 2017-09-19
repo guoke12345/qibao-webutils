@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * Created by giozola on 2017/9/19.
  */
-@Service
 public class OrderService {
     private static Logger logger = LoggerFactory.getLogger(OrderService.class);
 
@@ -24,9 +23,20 @@ public class OrderService {
      * @return
      * @throws IOException
      */
-    public static List<String> getOrder(Integer _id) throws IOException {
-        String stringResult = PostHelper.postStringEntity(ThirdPlatForm.getUrlById(_id),"");
+    synchronized public static List<String> getOrder(Integer _id) throws IOException {
+        logger.info("开始拉订单。");
+        logger.info("拉取 {} 平台订单",ThirdPlatForm.getNameById(_id));
+        String stringResult = null;
+        StringBuffer requestParam = new StringBuffer("");
+        try{
+            stringResult = PostHelper.postStringEntity(ThirdPlatForm.getUrlById(_id),requestParam.toString());
+        }catch (Exception e){
+            logger.info("拉订单失败！");
+        }
         logger.info("拉倒订单信息："+stringResult);
+        if (stringResult ==null || stringResult.isEmpty()){
+            return null;
+        }
         JSONObject jsonResult = JSONObject.fromObject(stringResult);
         jsonResult = JSONObject.fromObject(jsonResult.get("data"));
         OrderGetMSG orderGetMSG  = (OrderGetMSG) JSONObject.toBean(jsonResult,OrderGetMSG.class);
@@ -40,7 +50,7 @@ public class OrderService {
      * @param orderCodeList
      * @throws IOException
      */
-     public static void transOrder2LocalService(Integer id,List<String> orderCodeList) throws IOException {
+    synchronized public static void transOrder2LocalService(Integer id,List<String> orderCodeList) throws IOException {
         if (orderCodeList == null || orderCodeList.isEmpty()){
             throw new BusinessException("获取订单为空，没有可以转存的订单");
         }

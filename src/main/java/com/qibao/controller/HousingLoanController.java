@@ -4,6 +4,8 @@ import com.core.common.model.AjaxResult;
 import com.core.controller.BaseController;
 import com.qibao.dto.HousingLoanDto;
 import com.qibao.service.IHousingLoanCalculationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/houseloan")
 public class HousingLoanController extends BaseController{
-
+Logger logger = LoggerFactory.getLogger(HousingLoanController.class);
     @Autowired
     IHousingLoanCalculationUtil housingLoanCalculationUtil;
 
@@ -27,7 +29,7 @@ public class HousingLoanController extends BaseController{
      */
     @RequestMapping(value = "")
     public String toHouseLoanPage(){
-        System.out.println("to house loan page!");
+        logger.info("to house loan page!");
         return "houseloan";
     }
 
