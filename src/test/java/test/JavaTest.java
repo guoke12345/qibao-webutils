@@ -2,9 +2,11 @@ package test;
 
 
 import com.core.util.PostHelper;
+import com.modul.tps.OrderService;
 import com.qibao.model.StudentMapper;
 import com.qibao.model.dao.Student;
 import com.sun.tools.internal.xjc.reader.xmlschema.BGMBuilder;
+import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,7 +14,9 @@ import org.springframework.data.redis.core.ValueOperations;
 import redis.clients.jedis.Jedis;
 import test.common.BaseContextCase;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by giozola on 2017/6/26.
@@ -51,10 +55,9 @@ public class JavaTest
     }
 
     @Test
-    public void postHelper(){
-        String url = "http://120.27.228.102:8180/tps/admin/order/getICBCOrders";
-        String param = "";
-        System.out.println("begin post!");
-        PostHelper.httpUrlConnection();
+    public void postHelper() throws IOException {
+        List<String> ICBCList = OrderService.getOrder(3);
+        System.out.println(ICBCList.toString());
+        OrderService.transOrder2LocalService(3,ICBCList);
     }
 }
