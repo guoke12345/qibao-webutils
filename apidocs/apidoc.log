@@ -1,0 +1,14 @@
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils info
+信息: find java src path : C:\WorkSpase\qibao\src\main\java\
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils info
+信息: found it a spring mvc project, tell us if we are wrong.
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils info
+信息: generate api docs start...
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils info
+信息: start to generate docs for controller file : JavaDocTest.java
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils info
+信息: success to generate docs for controller file : JavaDocTest.java
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils info
+信息: generate api docs done !!!
+十月 18, 2017 1:32:30 上午 io.github.yedaxia.apidocs.LogUtils warn
+警告: docs config properties miss, we don't think you want to post to rap!
