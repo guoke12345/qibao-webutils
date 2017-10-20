@@ -2,6 +2,7 @@ package test;
 
 
 import com.core.util.PostHelper;
+import com.core.util.txt2voice.BaiDuApiUtil;
 import com.modul.tps.OrderService;
 import com.qibao.model.StudentMapper;
 import org.junit.Test;
@@ -51,10 +52,9 @@ public class JavaTest
         return b;
     }
 
+
     @Test
-    public void postHelper() throws IOException {
-        List<String> ICBCList = OrderService.getOrder(3);
-        System.out.println(ICBCList.toString());
-        OrderService.transOrder2LocalService(3,ICBCList);
+    public void getSpeechByTxt(){
+        BaiDuApiUtil.text2mp3("你好啊u上的发卡行发卡行水电费哇塞电话费士大夫卡暗示的回复","test","test.mp3");
     }
 }

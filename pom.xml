@@ -728,7 +728,12 @@
       <artifactId>japidocs</artifactId>
       <version>1.1</version>
     </dependency>
-
+    <!--百度aip 文字转语音等功能-->
+    <dependency>
+      <groupId>com.baidu.aip</groupId>
+      <artifactId>java-sdk</artifactId>
+      <version>3.2.1</version>
+    </dependency>
   </dependencies>
   <profiles>
     <profile>
