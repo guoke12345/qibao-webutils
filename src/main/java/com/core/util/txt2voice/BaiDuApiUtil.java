@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 /**
- * @createDate 创建时间：2017-8-23 下午02:44:15 类说明
- */
+ * 百度文字转语音，工具类
+ * @author 张伟超
+ * @create 2017/10/21 0021
+ **/
 public class BaiDuApiUtil{
 
-
-
-	private static int RES_TEXT_LENGTH = 300; // 每一段合成中文长度，
+	private static int RES_TEXT_LENGTH = 340; // 每一段合成中文长度，
 												// 百度api限制每次合成字节不超过1024，一个中文一般是3个字节
 
 	public static String text2mp3(String content, String filePath, String fileName) {
