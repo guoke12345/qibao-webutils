@@ -43,6 +43,7 @@ public class JavaTest
         System.out.printf(numerator.divide(denominator,4,BigDecimal.ROUND_HALF_UP).toString());
     }
 
+    // jisuan
     public BigDecimal jisuan(int j){
         BigDecimal b = BigDecimal.ONE;
         BigDecimal x = new BigDecimal(1.004083);
