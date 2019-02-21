@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/common/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<h1>Hello！</h1>
+<div id="div">
+
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url:"getVoice",
+            type:"post",
+            success:function (data){
+                console.log(data);
+                var audio = document.getElementById('aud');
+                $("#div").append("<audio controls='controls'><source src="+data+" type='audio/mpeg'></audio>")
+            }
+        })
+    })
+</script>
