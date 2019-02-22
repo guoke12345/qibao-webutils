@@ -1,5 +1,7 @@
 package com.qibao.webutils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class ControllerTest {
+    Logger logger = LoggerFactory.getLogger(ControllerTest.class);
 
     @RequestMapping("/test")
     public String test(){
-        return  "index";
+        System.out.println("hello");
+        logger.info("test Controller");
+        return  "index12";
     }
 }
