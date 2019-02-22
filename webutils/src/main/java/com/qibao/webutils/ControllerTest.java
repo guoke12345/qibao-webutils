@@ -19,7 +19,6 @@ public class ControllerTest {
 
     @RequestMapping("/test")
     public String test(){
-        System.out.println("hello");
         logger.info("test Controller");
         return  "index12";
     }
