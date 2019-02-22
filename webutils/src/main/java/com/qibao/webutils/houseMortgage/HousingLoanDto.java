@@ -1,13 +1,22 @@
 package com.qibao.webutils.houseMortgage;
 
+import lombok.Data;
+
+import java.util.Date;
+
 /**
  * Created by giozola on 2017/8/3.
  */
+@Data
 public class HousingLoanDto {
     /**
      * 日期，时间
      */
-    private String data;
+    private Date data;
+    /**
+     * 还款月数
+     */
+    private Integer months;
     /**
      * 还款金额
      */
@@ -30,64 +39,4 @@ public class HousingLoanDto {
      * 贷款期限  月
      */
     private Integer repaymentTime;
-
-    @Override
-    public String toString() {
-        return "HousingLoanDto{" +
-                "data='" + data + '\'' +
-                ", repayment=" + repayment +
-                ", repaymentPrincipal=" + repaymentPrincipal +
-                ", repaymentInterest=" + repaymentInterest +
-                ", repaymentRate=" + repaymentRate +
-                ", repaymentTime=" + repaymentTime +
-                '}';
-    }
-
-    public Integer getRepaymentTime() {
-        return repaymentTime;
-    }
-
-    public void setRepaymentTime(Integer repaymentTime) {
-        this.repaymentTime = repaymentTime;
-    }
-
-    public Double getRepaymentRate() {
-        return repaymentRate;
-    }
-
-    public void setRepaymentRate(Double repaymentRate) {
-        this.repaymentRate = repaymentRate;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public Double getRepayment() {
-        return repayment;
-    }
-
-    public void setRepayment(Double repayment) {
-        this.repayment = repayment;
-    }
-
-    public Double getRepaymentPrincipal() {
-        return repaymentPrincipal;
-    }
-
-    public void setRepaymentPrincipal(Double repaymentPrincipal) {
-        this.repaymentPrincipal = repaymentPrincipal;
-    }
-
-    public Double getRepaymentInterest() {
-        return repaymentInterest;
-    }
-
-    public void setRepaymentInterest(Double repaymentInterest) {
-        this.repaymentInterest = repaymentInterest;
-    }
 }

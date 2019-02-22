@@ -57,6 +57,10 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${jcloverslf4j.version}</version>
         </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+            </dependency>
     </dependencies>
 
     <build>

@@ -4,8 +4,12 @@ package com.qibao.webutils.houseMortgage;
 //房贷计算器
 
 
+import sun.util.resources.cldr.nl.CalendarData_nl_NL;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +32,10 @@ public class HouseMortgageCalculate {
      * 月利率
      */
     private BigDecimal interestRateMonth;
+    /**
+     * 贷款时间
+     */
+    private Date date;
 
     /**
      * 必需实力化放可使用。
@@ -36,11 +44,12 @@ public class HouseMortgageCalculate {
      * @param interestRateYear
      * @param repaymentTimeMonth
      */
-    public HouseMortgageCalculate(Double principal, Double interestRateYear, int repaymentTimeMonth) {
+    public HouseMortgageCalculate(Double principal, Double interestRateYear, int repaymentTimeMonth,Date date) {
         this.principal = new BigDecimal(principal);
         this.interestRateYear = new BigDecimal(interestRateYear);
         this.repaymentTimeMonth = repaymentTimeMonth;
         this.interestRateMonth = this.interestRateYear.divide(new BigDecimal(12), 8, BigDecimal.ROUND_HALF_UP);
+        this.date = date;
     }
 
     /**
@@ -94,12 +103,33 @@ public class HouseMortgageCalculate {
     /**
      * 月还款信息
      */
-    public HousingLoanDto repaymentMonth(int monthOrderNumber) {
+    private HousingLoanDto repaymentMonth(int monthOrderNumber) {
         HousingLoanDto housingLoanDto = new HousingLoanDto();
+        //还款总金额
         housingLoanDto.setRepayment(moneyByMonth().doubleValue());
+        //还款本金
         housingLoanDto.setRepaymentPrincipal(principalByMonth(monthOrderNumber).doubleValue());
+        //还款利息
         housingLoanDto.setRepaymentInterest(interestByMonth(monthOrderNumber).doubleValue());
+        //第几个月数
+        housingLoanDto.setMonths(monthOrderNumber);
+        // 设置还款日期
+        if (this.date != null){
+            housingLoanDto.setData(getRepaymentDate(monthOrderNumber));
+        }
         return housingLoanDto;
+    }
+
+    /**
+     * 获取还款日期
+     * @param monthOrderNumber 第几个还款月
+     * @return 还款日期
+     */
+    private Date getRepaymentDate(int monthOrderNumber){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH,monthOrderNumber - 1);
+        return calendar.getTime();
     }
 
     /**
@@ -114,6 +144,31 @@ public class HouseMortgageCalculate {
         }
         return housingLoanDtoList;
     }
+
+    /**
+     * 获取本月还款信息
+     * @return
+     */
+    public HousingLoanDto thisRepaymentMonth(){
+        if (this.date == null){
+            //首次还款时间不能为空
+            return null;
+        }
+        Calendar now = Calendar.getInstance();
+        //第一个还款月
+        Calendar  firstRepayDate = Calendar.getInstance();
+        now.setTime(new Date());
+        firstRepayDate.setTime(date);
+        // 现在时间与首次还款月相差月数
+        Integer months= now.get(Calendar.MONTH) - firstRepayDate.get(Calendar.MONTH);
+        Integer years= now.get(Calendar.YEAR) - firstRepayDate.get(Calendar.YEAR);
+        if (years<=0 && months < 0){
+            throw new RuntimeException("时间设置异常");
+        }
+        months = years*12+months;
+        return repaymentMonth(months);
+    }
+
 
 
     /**
