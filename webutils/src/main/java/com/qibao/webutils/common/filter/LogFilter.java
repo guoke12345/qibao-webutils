@@ -1,14 +1,11 @@
-package com.qibao.core.filter;
+package com.qibao.webutils.common.filter;
 
 import com.qibao.core.util.UUIDGenerator;
 import org.slf4j.MDC;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * spring boot 日志拦截器 time key 配置

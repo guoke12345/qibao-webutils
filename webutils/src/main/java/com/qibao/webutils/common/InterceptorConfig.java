@@ -1,7 +1,7 @@
 package com.qibao.webutils.common;
 
 
-import com.qibao.core.filter.LogFilter;
+import com.qibao.webutils.common.filter.LogFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
