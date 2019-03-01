@@ -4,8 +4,6 @@ package com.qibao.webutils.houseMortgage;
 //房贷计算器
 
 
-import sun.util.resources.cldr.nl.CalendarData_nl_NL;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 等额本息法
+ * 等额本息法 房贷计算类
  */
 public class HouseMortgageCalculate {
     /**

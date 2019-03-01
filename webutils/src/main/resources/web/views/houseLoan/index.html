@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/common/js/jquery-3.2.1.min.js"></script>
+    <title>房贷计算器</title>
+</head>
+<body>
+<div align="center">
+
+    <h2>Hello World!</h2>
+    <form action="##" id="form" onsubmit="return false" method="post">
+        <table>
+            <tr>
+                <td>本金1</td>
+                <td><input name="principal" type="number"></td>
+            </tr>
+            <tr>
+                <td>年利率</td>
+                <td><input name="interestRateYear" type="number"></td>
+            </tr>
+            <tr>
+                <td>还款月数</td>
+                <td><input name="repaymentTimeMonth" type="number"></td>
+            </tr>
+            <tr>
+                <td>首月还款时间</td>
+                <td><input name="date" type="text"></td>
+            </tr>
+        </table>
+    </form>
+    <button id="submit">提交</button>
+    <div id="result"></div>
+</div>
+<script type="text/javascript">
+$("#submit").click(function () {
+    $.ajax({
+        type: "POST",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url:"/houseLoan/caculate",
+        data: $('#form1').serialize(),
+        success: function (result) {
+            console.log(result);
+        }
+    })
+})
+</script>
+</body>
+</html>
+
